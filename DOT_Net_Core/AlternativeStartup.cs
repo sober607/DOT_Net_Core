@@ -13,15 +13,16 @@ namespace DOT_Net_Core
 {
     public class AlternativeStartup
     {
-        private IConfiguration _configuration { get; }
+        //private IConfiguration _configuration { get; }
 
-        public AlternativeStartup (IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        //public AlternativeStartup (IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+        //}
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -35,10 +36,9 @@ namespace DOT_Net_Core
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync(_configuration["Logging:LogLevel:Microsoft.Hosting.Lifetime"]);
-                });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
 
