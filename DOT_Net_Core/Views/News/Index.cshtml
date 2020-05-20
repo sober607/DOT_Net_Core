@@ -1,0 +1,43 @@
+﻿@using DOT_Net_Core.Controllers;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+
+
+
+        @section News{
+                <center>
+                    <table border="1" cellpadding="5">
+                        <tr bgcolor="gray">
+                            <td>Id</td>
+                            <td>Title</td>
+
+                            <td>Fake?</td>
+                        </tr>
+
+                      
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            var news = ViewData[Convert.ToString(i)] as News;
+                            <tr>
+                                <td>@news.Id</td>
+                                <td>@news.Title</td>
+
+                                <td>@news.IsFake</td>
+                            </tr>
+                        }
+
+
+                    </table>
+                </center>
+        }
+    
+    </div>

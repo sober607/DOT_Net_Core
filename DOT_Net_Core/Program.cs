@@ -20,7 +20,7 @@ namespace DOT_Net_Core
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<AlternativeStartup>();
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }
