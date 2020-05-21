@@ -11,20 +11,13 @@ namespace DOT_Net_Core.Controllers
     public class NewsController : Controller
     {
         // GET: News
-        public static int newsQty;
+       
 
         public IActionResult Index()
         {
-            foreach (var tmp in NewsBase.News)
-            {
-                ViewData[Convert.ToString(tmp.Id)] = NewsBase.News.SingleOrDefault(t => t.Id == tmp.Id);
-                newsQty++;
-            }
-            //ViewData["somekey"] = NewsBase.News.SingleOrDefault(t => t.Id == 1);
-
-
-
-
+            
+                ViewData["News"] = NewsBase.News;
+            
             return View();
         }
         public IActionResult Show()

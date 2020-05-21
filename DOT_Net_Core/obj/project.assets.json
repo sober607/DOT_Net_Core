@@ -8183,9 +8183,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\DOT_Net_Core\\DOT_Net_Core\\DOT_Net_Core.csproj",
-      "projectName": "DOT_Net_Core",
-      "projectPath": "C:\\Users\\Admin\\source\\repos\\DOT_Net_Core\\DOT_Net_Core\\DOT_Net_Core.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\DOT_Net_Core\\DOT_Net_Core\\Lesson3.csproj",
+      "projectName": "Lesson3",
+      "projectPath": "C:\\Users\\Admin\\source\\repos\\DOT_Net_Core\\DOT_Net_Core\\Lesson3.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Admin\\source\\repos\\DOT_Net_Core\\DOT_Net_Core\\obj\\",
       "projectStyle": "PackageReference",

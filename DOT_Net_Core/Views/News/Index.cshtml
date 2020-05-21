@@ -14,29 +14,30 @@
 
         @section News{
                 <center>
-                    <table border="1" cellpadding="5">
-                        <tr bgcolor="gray">
-                            <td>Id</td>
-                            <td>Title</td>
+                            <table border="1" cellpadding="5" style="box-shadow: 0px 0px 2px 2px gray">
+                                <tr bgcolor="gray" style="font-weight: bold">
+                                    <td>Id</td>
+                                    <td>Title</td>
 
-                            <td>Fake?</td>
-                        </tr>
+                                    <td>Fake?</td>
+                                </tr>
+                                
+                                @for (int i = 0; i < (ViewData["News"] as List<News>).Count; i++)
+                                {
+                                    //приведение ViewData снова к коллекции данных
+                                    List<News> news = ViewData["News"] as List<News>;
+                                    
+                                    //генерация строк
+                                    <tr>
+                                        <td>@news[i].Id</td>
+                                        <td>@news[i].Title</td>
 
-                      
+                                        <td>@news[i].IsFake</td>
+                                    </tr>
+                                }
+                                
 
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            var news = ViewData[Convert.ToString(i)] as News;
-                            <tr>
-                                <td>@news.Id</td>
-                                <td>@news.Title</td>
-
-                                <td>@news.IsFake</td>
-                            </tr>
-                        }
-
-
-                    </table>
+                            </table>
                 </center>
         }
     
