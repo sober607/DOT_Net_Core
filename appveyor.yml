@@ -1,14 +1,19 @@
 version: 1.0.{build}
 configuration: Release
+
+environment:
+  matrix:
+  - solution_name: DOT_Net_Core\DOT_Net_Core.csproj 
+  - solution_name: Lesson4-Task1\Lesson4-Task1.csproj 
+
 cache: 
     - packages -> **\packages.config
 before_build: nuget restore
-matrix: 
-  matrix: 
-      - project_name: DOT_Net_Core\DOT_Net_Core.csproj 
-      - project_name: Lesson4-Task1\Lesson4-Task1.csproj 
+
+
 
 build: 
-    verbosity: normal 
-    project: $(project_name)
     publish_wap: true
+
+build_script:
+  - msbuild %solution_name%
