@@ -3,6 +3,7 @@ configuration: Release
 cache: 
     - packages -> **\packages.config
 before_build: nuget restore
+matrix: 
   matrix: 
       - project_name: DOT_Net_Core\DOT_Net_Core.csproj 
       - project_name: Lesson4-Task1\Lesson4-Task1.csproj 
