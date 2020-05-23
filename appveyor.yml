@@ -3,7 +3,7 @@ configuration: Release
 
 environment:
   matrix:
-  - solution_name: DOT_Net_Core\DOT_Net_Core.csproj 
+  - solution_name: DOT_Net_Core\Infestation.csproj 
   - solution_name: Lesson4-Task1\Lesson4-Task1.csproj 
 
 cache: 
