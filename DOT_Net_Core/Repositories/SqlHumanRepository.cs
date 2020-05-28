@@ -10,8 +10,7 @@ namespace DOT_Net_Core.Repository
     public class SqlHumanRepository : IHumanActions
     {
         private DOT_Net_CoreContext _context { get; set; }
-
-
+        
         public IEnumerable<Human> GetAllHumans()
         {
             return _context.Humans;

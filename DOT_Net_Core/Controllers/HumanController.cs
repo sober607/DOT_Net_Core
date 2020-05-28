@@ -18,9 +18,10 @@ namespace DOT_Net_Core.Controllers
 
         private IHumanActions _repository { get; set; }
 
-        public HumanController(DOT_Net_CoreContext context)
+        public HumanController(DOT_Net_CoreContext context, IHumanActions repository)
         {
             this._context = context;
+            this._repository = repository;
         }
         public IActionResult Index(int humanId)
         {
