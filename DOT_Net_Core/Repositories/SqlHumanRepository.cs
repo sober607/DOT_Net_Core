@@ -9,11 +9,74 @@ namespace DOT_Net_Core.Repository
 {
     public class SqlHumanRepository : IHumanActions
     {
-        private DOT_Net_CoreContext _context { get; set; }
+        //сообщение о результате выполнения операции
         
+
+        private DOT_Net_CoreContext _context { get; set; }
+
+        public SqlHumanRepository(DOT_Net_CoreContext context)
+        {
+            _context = context;
+        }
+
+
         public IEnumerable<Human> GetAllHumans()
         {
-            return _context.Humans;
+            return _context.Humans.ToList();
+        }
+
+        public IEnumerable<Human> GetHuman(int humanId)
+        {
+            return (new List<Human>() { _context.Humans.FirstOrDefault(x => x.Id == humanId) } );
+        }
+
+        public void CreateHuman(string firstName, string lastName, int age, bool isSick, string gender, int countryId)
+        {
+            var newHuman = new Human { FirstName = firstName, LastName = lastName, Age = age, IsSick = isSick, Gender = gender, CountryId=countryId };
+            _context.Humans.Add(newHuman);
+            _context.SaveChanges();
+
+            
+        }
+
+        public void ModifyHuman(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId)
+        {
+            var modifiedHuman = _context.Humans.FirstOrDefault(x => x.Id == humanId);
+            if (firstName != null | firstName != "")
+            { modifiedHuman.FirstName = firstName; }
+
+            if (lastName != null | lastName != "")
+            { modifiedHuman.LastName = lastName; }
+
+            if (age != 0)
+            { modifiedHuman.Age = age; }
+
+            if (isSick != false )
+            { modifiedHuman.IsSick= isSick; }
+
+            if (gender != "")
+            { modifiedHuman.Gender = gender; }
+
+
+            if (countryId != 0)
+            { modifiedHuman.CountryId = countryId; }
+
+            
+            _context.SaveChanges();
+            
+
+        }
+
+        public void DeleteHuman(int humanId)
+        {
+            Human deleteHuman = _context.Humans.Find(humanId);
+            if (deleteHuman != null)
+            {
+            _context.Humans.Remove(deleteHuman);
+                _context.SaveChanges();
+                
+            }
+            
         }
     }
 }

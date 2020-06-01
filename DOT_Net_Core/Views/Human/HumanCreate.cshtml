@@ -1,13 +1,13 @@
 ﻿@{
-    var human2 = ViewData["humanRepository"] as IEnumerable<Human>;
+    var human2 = ViewData["IndexHumanControllerData"] as IEnumerable<Human>;
 
 }
 <center>
-    <h1>List of humans:</h1>
+    <h1>Please verify result of opetaion:</h1>
     <br />
     <table border="1" cellpadding="5" style="box-shadow: 0 0 4px 2px black">
         <tr bgcolor="gray" style="font-weight: bold"><td>Id</td><td>First Name</td><td>Last Name</td><td>Age</td><td>Is he sick?</td><td>Gender</td><td>Country</td></tr>
-        @{ foreach (Human t in human2)
+        @{ foreach (var t in human2)
             {
                 <tr>
                     <td>@t.Id</td>

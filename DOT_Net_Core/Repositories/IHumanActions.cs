@@ -10,13 +10,13 @@ namespace DOT_Net_Core.Repository
     {
         IEnumerable<Human> GetAllHumans();
 
-        //Human GetHuman(int humanId);
+        IEnumerable<Human> GetHuman(int humanId);
 
-        //void CreateHuman(Human human);
+        void CreateHuman(string firstName, string lastName, int age, bool isSick, string gender, int countryId);
 
-        //void ModifyHuman(int humanId);
+        void ModifyHuman(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId);
 
-        //void KillHuman(int humanId);
+        void DeleteHuman(int humanId);
 
 
     }

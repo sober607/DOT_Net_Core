@@ -23,12 +23,21 @@ namespace DOT_Net_Core.Controllers
             this._context = context;
             this._repository = repository;
         }
+
         public IActionResult Index(int humanId)
         {
-            
-            
-            ViewData["IndexHumanControllerData"] = (humanId == 0) ?  _context.Humans.ToList() : ViewData["IndexHumanControllerData"] = _context.Humans.Where(x => x.Id == humanId).ToList();
-            
+
+            //использование метода из DI для ДЗ 5.5
+             if (humanId == 0)
+            {
+                ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
+                            }
+            else
+            {
+                ViewData["IndexHumanControllerData"] = _repository.GetHuman(humanId);
+
+            }
+
             return View();
         }
 
@@ -38,13 +47,28 @@ namespace DOT_Net_Core.Controllers
             return View();
         }
 
-        public IActionResult Getallhumans()
+
+        public IActionResult HumanCreate(string firstName, string lastName, int age, bool isSick, string gender, int countryId)
         {
-            ViewData["humanRepository"] = _repository.GetAllHumans();
+            _repository.CreateHuman(firstName, lastName, age, isSick, gender, countryId);
+            ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
             return View();
         }
 
+        public IActionResult HumanModify(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId)
+        {
+            _repository.ModifyHuman(humanId, firstName, lastName, age, isSick, gender, countryId);
+            ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
+            return View();
+        }
 
+        public IActionResult HumanDelete(int humanId)
+        {
+            _repository.DeleteHuman(humanId);
+            ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
+            return View();
+        }
+           
 
     }
 }
