@@ -41,11 +41,7 @@ namespace DOT_Net_Core.Controllers
             return View();
         }
 
-        public IActionResult Country(string name)
-        {
-            ViewData["human"] = _context.Humans.Where(x => x.Country.Name == name).ToList();
-            return View();
-        }
+
 
 
         public IActionResult HumanCreate(string firstName, string lastName, int age, bool isSick, string gender, int countryId)

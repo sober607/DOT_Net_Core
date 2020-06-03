@@ -4,14 +4,16 @@ using DOT_Net_Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infestation.Migrations
 {
     [DbContext(typeof(DOT_Net_CoreContext))]
-    partial class DOT_Net_CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200603161542_AddWordPartData")]
+    partial class AddWordPartData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,31 +133,6 @@ namespace Infestation.Migrations
                         {
                             Id = 1,
                             Name = "Asia"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Australia"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "America"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Africa"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Europe"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Antarctic"
                         });
                 });
 

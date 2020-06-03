@@ -17,7 +17,9 @@ namespace DOT_Net_Core.Models
         public int CountryId { get; set; }
         public virtual Country Country { get; set; }
 
-        
+        public virtual List<News> News { get; set; }
+
+
     }
 
 

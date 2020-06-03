@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using DOT_Net_Core.Models;
 using Microsoft.EntityFrameworkCore;
 using DOT_Net_Core.Repository;
+using Infestation.Repositories;
 
 namespace DOT_Net_Core
 {
@@ -25,6 +26,7 @@ namespace DOT_Net_Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<INewsRepository, SqlNewsRepository>();
             services.AddScoped<IHumanActions, SqlHumanRepository>();
             services.AddControllersWithViews();
             services.AddDbContext<DOT_Net_CoreContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("DOT_Net_CoreDbConnectionNew")).UseLazyLoadingProxies());
