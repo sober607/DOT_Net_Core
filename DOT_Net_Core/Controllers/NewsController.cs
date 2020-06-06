@@ -12,12 +12,14 @@ namespace DOT_Net_Core.Controllers
     public class NewsController : Controller
     {
         // GET: News
-       private INewsRepository _repository { get; set; }
+        private INewsRepository _repository { get; set; }
 
-        public NewsController (INewsRepository repository)
+        public NewsController(INewsRepository repository)
         {
             _repository = repository;
         }
+
+        //[Route("[controller]/[action]")]
         public IActionResult Index()
         {
             
@@ -25,6 +27,8 @@ namespace DOT_Net_Core.Controllers
             
             return View();
         }
+
+       
         public IActionResult Show(int id)
         {
 

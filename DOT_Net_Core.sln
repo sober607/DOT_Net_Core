@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infestation", "DOT_Net_Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson4-Task1", "Lesson4-Task1\Lesson4-Task1.csproj", "{E76CA777-04CB-4FDE-90EB-C69CD7B05A1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestApi", "RestApi\RestApi.csproj", "{480EDDE6-B7C0-479B-9D0B-C8B298B87EC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E76CA777-04CB-4FDE-90EB-C69CD7B05A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E76CA777-04CB-4FDE-90EB-C69CD7B05A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E76CA777-04CB-4FDE-90EB-C69CD7B05A1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{480EDDE6-B7C0-479B-9D0B-C8B298B87EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480EDDE6-B7C0-479B-9D0B-C8B298B87EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480EDDE6-B7C0-479B-9D0B-C8B298B87EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480EDDE6-B7C0-479B-9D0B-C8B298B87EC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

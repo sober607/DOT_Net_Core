@@ -27,7 +27,7 @@
                 @for (int i = 0; i < (ViewData["News"] as List<News>).Count; i++)
                 {
                     //приведение ViewData снова к коллекции данных
-                    List<News> news = ViewData["News"] as List<News>;
+                    List<News> news = (ViewData["News"] as List<News>);
 
                     //генерация строк
                     <tr>
