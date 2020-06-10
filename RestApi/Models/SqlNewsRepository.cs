@@ -40,12 +40,17 @@ namespace RestApi.Models
 
         public void ChangeNews(News news)
         {
-            int changedNews = News.IndexOf(News.SingleOrDefault(t => t.Id == news.Id));
-            News[changedNews].Id = news.Id;
-            News[changedNews].Title = news.Title;
-            News[changedNews].Text = news.Text;
-            News[changedNews].AuthorName = news.AuthorName;
-            News[changedNews].IsFake = news.IsFake;
+
+            if (News.SingleOrDefault(t => t.Id == news.Id) != null)
+            { 
+                News[News.IndexOf(News.SingleOrDefault(t => t.Id == news.Id))] = news;
+            }
+            else
+            {
+                News.Add(news);
+            }
+
+
 
         }
 
@@ -60,9 +65,6 @@ namespace RestApi.Models
                 News[changedNewsIndex].AuthorName = news.AuthorName;
             if (news.IsFake != null)
                 News[changedNewsIndex].IsFake = news.IsFake;
-
-
-
 
         }
     }
