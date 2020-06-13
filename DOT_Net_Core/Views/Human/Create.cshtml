@@ -1,0 +1,27 @@
+﻿
+@model Human
+
+
+<form asp-controller="Human" asp-action="Create" method="post">
+
+    <label asp-for="FirstName">FirstName</label><br />
+    <input asp-for="FirstName" type="text" /><br />
+
+    <label for="LastName">LastName</label><br />
+    <input name="LastName" type="text" /><br />
+
+    <label for="Age">Age</label><br />
+    <input name="Age" type="number" /><br />
+
+    <label for="IsSick">IsSick</label><br />
+    <input name="IsSick" type="checkbox" /><br />
+
+    <label for="Gender">Gender</label><br />
+    <input name="Gender" type="text" /><br />
+
+    <label for="CountryId">CountryId</label><br />
+    <input name="CountryId" type="number" /><br />
+
+    <button type="submit">Create human</button>
+
+</form>

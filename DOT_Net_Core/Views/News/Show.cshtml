@@ -1,8 +1,6 @@
 ﻿@using DOT_Net_Core.Controllers;
 
-@{
-    ViewData["Title"] = "News list";
-}
+@model News
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -23,24 +21,17 @@
                     <td>Author first name</td>
                     <td>Author last name</td>
                 </tr>
+                <tr>
+                        <td>@Model.Id</td>
+                        <td>@Model.Title</td>
 
-                @for (int i = 0; i < (ViewData["News"] as List<News>).Count; i++)
-                {
-                    //приведение ViewData снова к коллекции данных
-                    List<News> news = (ViewData["News"] as List<News>);
-
-                    //генерация строк
-                    <tr>
-                        <td>@news[i].Id</td>
-                        <td>@news[i].Title</td>
-
-                        <td>@news[i].Text</td>
-                        <td>@news[i].IsFake</td>
-                        <td>@news[i].Human.FirstName</td>
-                        <td>@news[i].Human.LastName</td>
+                        <td>@Model.Text</td>
+                        <td>@Model.IsFake</td>
+                        <td>@Model.Human.FirstName</td>
+                        <td>@Model.Human.LastName</td>
 
                     </tr>
-                }
+               
 
 
             </table>

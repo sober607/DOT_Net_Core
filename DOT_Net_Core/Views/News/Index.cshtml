@@ -37,7 +37,7 @@
                                 <td>@news[i].Text</td>
                                 <td>@news[i].IsFake</td>
                                 <td>@news[i].Human.FirstName</td>
-                                <td>@news[i].Human.LastName</td>
+                                <td><a asp-controller="Human" asp-action="Index" asp-route-humanId="@news[i].Id">@news[i].Human.LastName</a></td>
 
                             </tr>
                                 }

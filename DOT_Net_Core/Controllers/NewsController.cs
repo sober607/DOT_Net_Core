@@ -23,7 +23,7 @@ namespace DOT_Net_Core.Controllers
         public IActionResult Index()
         {
             
-                ViewData["News"] = _repository.GetAllNews();
+                ViewData["News"] = _repository.GetAllNews().ToList();
             
             return View();
         }
@@ -32,9 +32,9 @@ namespace DOT_Net_Core.Controllers
         public IActionResult Show(int id)
         {
 
-            ViewData["News"] = _repository.GetAllNews().SingleOrDefault(x => x.Id == id);
-
-            return View();
+            //ViewData["News"] = _repository.GetAllNews().SingleOrDefault(x => x.Id == id);
+            var selectedNews = _repository.GetAllNews().SingleOrDefault(x => x.Id == id); ;
+            return View(selectedNews);
         }
 
         // GET: News/Create

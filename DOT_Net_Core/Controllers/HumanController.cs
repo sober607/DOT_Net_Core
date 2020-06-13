@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using DOT_Net_Core.Models;
 using Microsoft.EntityFrameworkCore;
 using DOT_Net_Core.Repository;
+using Infestation.Repositories;
+using Infestation.ViewModels;
 
 namespace DOT_Net_Core.Controllers
 {
@@ -41,13 +43,43 @@ namespace DOT_Net_Core.Controllers
             return View();
         }
 
+        public IActionResult Authors([FromServices] INewsRepository newsRepository)
+        {
+            var humans = _repository.GetAllHumans();
+            var viewModels = new List<HumanAuthorsViewModel>();
+
+            foreach (var human in humans)
+            {
+                var viewModel = new HumanAuthorsViewModel();
+                viewModel.FirstName = human.FirstName;
+                viewModel.LastName = human.LastName;
+                viewModel.NewsCount = newsRepository.GetAllNews().Count(news => news.AuthorId == human.Id);
+
+                viewModels.Add(viewModel);
+            }
+
+            return View(viewModels);
+
+        }
 
 
+        public IActionResult Country(string name)
+        {
+            ViewBag.Country = _context.Humans.Where(x => x.Country.Name == name).ToList();
+            return View();
+        }
 
         public IActionResult HumanCreate(string firstName, string lastName, int age, bool isSick, string gender, int countryId)
         {
             _repository.CreateHuman(firstName, lastName, age, isSick, gender, countryId);
             ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Human human)
+        {
+            _repository.CreateHuman(human);
             return View();
         }
 
@@ -64,7 +96,15 @@ namespace DOT_Net_Core.Controllers
             ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
             return View();
         }
-           
+        
+                public IActionResult Create()
+        {
+            
+            return View();
+        }
+
+
+
 
     }
 }

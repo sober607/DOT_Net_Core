@@ -14,6 +14,8 @@ namespace DOT_Net_Core.Repository
 
         void CreateHuman(string firstName, string lastName, int age, bool isSick, string gender, int countryId);
 
+        void CreateHuman(Human human);
+
         void ModifyHuman(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId);
 
         void DeleteHuman(int humanId);

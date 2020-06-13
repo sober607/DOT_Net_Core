@@ -35,9 +35,15 @@ namespace DOT_Net_Core.Repository
             var newHuman = new Human { FirstName = firstName, LastName = lastName, Age = age, IsSick = isSick, Gender = gender, CountryId=countryId };
             _context.Humans.Add(newHuman);
             _context.SaveChanges();
-
-            
+           
         }
+
+        public void CreateHuman(Human human)
+        {
+            _context.Humans.Add(human);
+            _context.SaveChanges();
+        }
+
 
         public void ModifyHuman(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId)
         {

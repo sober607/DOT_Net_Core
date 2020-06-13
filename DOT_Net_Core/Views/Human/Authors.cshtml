@@ -1,0 +1,23 @@
+﻿@using Infestation.ViewModels
+
+@model List<HumanAuthorsViewModel>
+
+<table class="table">
+    <tr>
+
+        <th>FirstName</th>
+        <th>LastName</th>
+
+        <th>NewsCount</th>
+    </tr>
+    @foreach (var author in Model)
+    {
+<tr>
+    <td>@author.FirstName</td>
+    <td>@author.LastName</td>
+
+    <td>@author.NewsCount</td>
+</tr>
+    }
+</table>
+
