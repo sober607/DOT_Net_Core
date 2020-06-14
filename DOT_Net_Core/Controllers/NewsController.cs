@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DOT_Net_Core.Models;
 using Infestation.Repositories;
+using Infestation.ViewModels;
 
 namespace DOT_Net_Core.Controllers
 {
     public class NewsController : Controller
     {
-        // GET: News
+
         private INewsRepository _repository { get; set; }
 
         public NewsController(INewsRepository repository)
@@ -19,25 +20,48 @@ namespace DOT_Net_Core.Controllers
             _repository = repository;
         }
 
-        //[Route("[controller]/[action]")]
-        public IActionResult Index()
+        
+        public IActionResult Index(int newsId, int authorId)
         {
-            
-                ViewData["News"] = _repository.GetAllNews().ToList();
-            
+            if (newsId == 0 )
+            {
+                var allNews = (authorId == 0)?_repository.GetAllNews(): _repository.GetAuthorNews(authorId);
+                var modelViews = new List<NewsViewModel>();
+
+                foreach (var t in allNews)
+                {
+                    var modelView = new NewsViewModel();
+                    modelView.News = t;
+                    modelViews.Add(modelView);
+                }
+                return View(modelViews);
+            }
+            else
+            {
+                var news = _repository.GetNews(newsId);
+                var viewModels = new List<NewsViewModel>();
+                var newsModel = new NewsViewModel();
+                newsModel.News = news[0];
+                viewModels.Add(newsModel);
+                return View(viewModels);
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult Create(News news)
+        {
+            _repository.Create(news);
             return View();
         }
 
-       
-        public IActionResult Show(int id)
+        [HttpGet]
+        public IActionResult Create()
         {
-
-            //ViewData["News"] = _repository.GetAllNews().SingleOrDefault(x => x.Id == id);
-            var selectedNews = _repository.GetAllNews().SingleOrDefault(x => x.Id == id); ;
-            return View(selectedNews);
+            return View();
         }
 
-        // GET: News/Create
+
 
     }
 }

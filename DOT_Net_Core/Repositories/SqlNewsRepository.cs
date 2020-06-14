@@ -16,9 +16,27 @@ namespace Infestation.Repositories
             _context = context;
         }
 
-        public IEnumerable<News> GetAllNews()
+        public List<News> GetAllNews()
         {
             return _context.News.ToList();
+        }
+
+        public List<News> GetNews(int newsId)
+        {
+            return (new List<News> { _context.News.FirstOrDefault(news => news.Id == newsId) });
+        }
+
+        public List<News> GetAuthorNews(int authorId)
+        {
+            List<News> authorNews = _context.News.Where(news => news.AuthorId == authorId).ToList();
+
+            return authorNews;
+        }
+
+        public void Create(News news)
+        {
+            _context.News.Add(news);
+            _context.SaveChanges();
         }
     }
 }

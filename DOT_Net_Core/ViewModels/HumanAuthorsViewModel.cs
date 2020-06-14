@@ -8,6 +8,7 @@ namespace Infestation.ViewModels
 {
     public class HumanAuthorsViewModel
     {
+        public int AuthorId { get; set; }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

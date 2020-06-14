@@ -1,8 +1,6 @@
 ﻿@using DOT_Net_Core.Controllers;
 
-@{
-    ViewData["Title"] = "News home Page";
-}
+@model List<NewsViewModel>
 
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
@@ -24,20 +22,20 @@
                                             <td>Author last name</td>
                                         </tr>
                                 
-                                @for (int i = 0; i < (ViewData["News"] as List<News>).Count; i++)
+                                @foreach (var news in Model) 
                                 {
                                     //приведение ViewData снова к коллекции данных
-                                    List<News> news = ViewData["News"] as List<News>;
+                                    
                                     
                                     //генерация строк
                             <tr>
-                                <td>@news[i].Id</td>
-                                <td>@news[i].Title</td>
+                                <td>@news.News.Id</td>
+                                <td>@news.News.Title</td>
 
-                                <td>@news[i].Text</td>
-                                <td>@news[i].IsFake</td>
-                                <td>@news[i].Human.FirstName</td>
-                                <td><a asp-controller="Human" asp-action="Index" asp-route-humanId="@news[i].Id">@news[i].Human.LastName</a></td>
+                                <td>@news.News.Text</td>
+                                <td>@news.News.IsFake</td>
+                                <td>@news.News.Human.FirstName</td>
+                                <td><a asp-controller="Human" asp-action="Authors" asp-route-humanId="@news.News.AuthorId">@news.News.Human.LastName</a></td>
 
                             </tr>
                                 }

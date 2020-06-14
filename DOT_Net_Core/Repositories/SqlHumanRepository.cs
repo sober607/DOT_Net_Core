@@ -20,28 +20,24 @@ namespace DOT_Net_Core.Repository
         }
 
 
-        public IEnumerable<Human> GetAllHumans()
+        public List<Human> GetAllHumans()
         {
             return _context.Humans.ToList();
         }
 
-        public IEnumerable<Human> GetHuman(int humanId)
+        public List<Human> GetHuman(int humanId)
         {
-            return (new List<Human>() { _context.Humans.FirstOrDefault(x => x.Id == humanId) } );
+            return (new List<Human> { (_context.Humans.FirstOrDefault(x => x.Id == humanId)) } );
         }
 
-        public void CreateHuman(string firstName, string lastName, int age, bool isSick, string gender, int countryId)
-        {
-            var newHuman = new Human { FirstName = firstName, LastName = lastName, Age = age, IsSick = isSick, Gender = gender, CountryId=countryId };
-            _context.Humans.Add(newHuman);
-            _context.SaveChanges();
-           
-        }
 
-        public void CreateHuman(Human human)
+        public void Create(Human human)
         {
+            if (human != null )
+            { 
             _context.Humans.Add(human);
             _context.SaveChanges();
+            }
         }
 
 

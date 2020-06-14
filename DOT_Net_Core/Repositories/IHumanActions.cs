@@ -8,13 +8,11 @@ namespace DOT_Net_Core.Repository
 {
     public interface IHumanActions
     {
-        IEnumerable<Human> GetAllHumans();
+        List<Human> GetAllHumans();
 
-        IEnumerable<Human> GetHuman(int humanId);
+        List<Human> GetHuman(int humanId);
 
-        void CreateHuman(string firstName, string lastName, int age, bool isSick, string gender, int countryId);
-
-        void CreateHuman(Human human);
+        void Create(Human human);
 
         void ModifyHuman(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId);
 

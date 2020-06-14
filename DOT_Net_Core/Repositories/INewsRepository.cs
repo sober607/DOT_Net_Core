@@ -8,6 +8,12 @@ namespace Infestation.Repositories
 {
     public interface INewsRepository
     {
-        IEnumerable<News> GetAllNews();
+        List<News> GetAllNews();
+
+        List<News> GetNews(int newsId);
+
+        List<News> GetAuthorNews(int authorId);
+
+        void Create(News news);
     }
 }

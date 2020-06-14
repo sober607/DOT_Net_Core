@@ -19,6 +19,7 @@ namespace DOT_Net_Core.Controllers
         private DOT_Net_CoreContext _context { get; set; }
 
         private IHumanActions _repository { get; set; }
+ 
 
         public HumanController(DOT_Net_CoreContext context, IHumanActions repository)
         {
@@ -28,80 +29,129 @@ namespace DOT_Net_Core.Controllers
 
         public IActionResult Index(int humanId)
         {
-
-            //использование метода из DI для ДЗ 5.5
-             if (humanId == 0)
+            // if no ID value given in url
+            if (humanId == 0)
             {
-                ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
-                            }
+                var humans = _repository.GetAllHumans();
+                var viewModels = new List<HumanIndexViewModel>();
+                
+                foreach (var human in humans)
+                {
+                    var humanModel = new HumanIndexViewModel();
+                    humanModel.Human = human;
+                    viewModels.Add(humanModel);
+                }
+                return View(viewModels);
+            }
             else
             {
-                ViewData["IndexHumanControllerData"] = _repository.GetHuman(humanId);
-
+                var human = _repository.GetHuman(humanId);
+                var viewModels = new List<HumanIndexViewModel>() ;
+                var humanModel = new HumanIndexViewModel();
+                humanModel.Human = human[0];
+                viewModels.Add(humanModel);
+                return View(viewModels);
             }
 
-            return View();
         }
 
-        public IActionResult Authors([FromServices] INewsRepository newsRepository)
+        public IActionResult Authors([FromServices] INewsRepository newsRepository, [FromQuery] int humanId)
         {
-            var humans = _repository.GetAllHumans();
-            var viewModels = new List<HumanAuthorsViewModel>();
-
-            foreach (var human in humans)
+            
+            if (humanId == 0 )
             {
-                var viewModel = new HumanAuthorsViewModel();
-                viewModel.FirstName = human.FirstName;
-                viewModel.LastName = human.LastName;
-                viewModel.NewsCount = newsRepository.GetAllNews().Count(news => news.AuthorId == human.Id);
+                var humans = _repository.GetAllHumans();
+                var viewModels = new List<HumanAuthorsViewModel>();
 
-                viewModels.Add(viewModel);
+                foreach (var human in humans)
+                {
+                    var viewModel = new HumanAuthorsViewModel();
+                    viewModel.FirstName = human.FirstName;
+                    viewModel.LastName = human.LastName;
+                    viewModel.AuthorId = human.Id;
+                    viewModel.NewsCount = newsRepository.GetAllNews().Count(news => news.AuthorId == human.Id);
+
+                    viewModels.Add(viewModel);
+                }
+
+                return View(viewModels);
             }
+            else
+            {
+                var human = _repository.GetHuman(humanId);
+                var viewModels = new List<HumanAuthorsViewModel>();
+                    var viewModel = new HumanAuthorsViewModel();
+                    viewModel.FirstName = human[0].FirstName;
+                    viewModel.LastName = human[0].LastName;
+                    viewModel.NewsCount = newsRepository.GetAllNews().Count(news => news.AuthorId == human[0].Id);
 
-            return View(viewModels);
+                    viewModels.Add(viewModel);
+
+
+                return View(viewModels);
+            }
 
         }
 
 
         public IActionResult Country(string name)
         {
-            ViewBag.Country = _context.Humans.Where(x => x.Country.Name == name).ToList();
-            return View();
+            var viewModels = new List<HumanIndexViewModel>();
+            foreach (Human t in _context.Humans.Where(x => x.Country.Name == name).ToList())
+            {
+                var human = new HumanIndexViewModel();
+                human.Human = t;
+                viewModels.Add(human);
+            }
+            
+            return View(viewModels);
         }
 
-        public IActionResult HumanCreate(string firstName, string lastName, int age, bool isSick, string gender, int countryId)
-        {
-            _repository.CreateHuman(firstName, lastName, age, isSick, gender, countryId);
-            ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
-            return View();
-        }
 
         [HttpPost]
         public IActionResult Create(Human human)
         {
-            _repository.CreateHuman(human);
+            _repository.Create(human);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
             return View();
         }
 
         public IActionResult HumanModify(int humanId, string firstName, string lastName, int age, bool isSick, string gender, int countryId)
         {
             _repository.ModifyHuman(humanId, firstName, lastName, age, isSick, gender, countryId);
-            ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
-            return View();
+            var humans = _repository.GetAllHumans();
+            var viewModels = new List<HumanIndexViewModel>();
+
+            foreach (var human in humans)
+            {
+                var humanModel = new HumanIndexViewModel();
+                humanModel.Human = human;
+                viewModels.Add(humanModel);
+            }
+            return View(viewModels);
         }
 
         public IActionResult HumanDelete(int humanId)
         {
             _repository.DeleteHuman(humanId);
-            ViewData["IndexHumanControllerData"] = _repository.GetAllHumans();
-            return View();
+            var humans = _repository.GetAllHumans();
+            var viewModels = new List<HumanIndexViewModel>();
+
+            foreach (var human in humans)
+            {
+                var humanModel = new HumanIndexViewModel();
+                humanModel.Human = human;
+                viewModels.Add(humanModel);
+            }
+            return View(viewModels);
         }
         
-                public IActionResult Create()
-        {
-            
-            return View();
-        }
+              
 
 
 

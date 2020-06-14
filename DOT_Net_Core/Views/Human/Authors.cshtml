@@ -16,7 +16,7 @@
     <td>@author.FirstName</td>
     <td>@author.LastName</td>
 
-    <td>@author.NewsCount</td>
+    <td><a asp-controller="News" asp-action="Index" asp-route-authorId="@author.AuthorId">@author.NewsCount</a></td>
 </tr>
     }
 </table>
