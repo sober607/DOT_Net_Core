@@ -51,8 +51,12 @@ namespace DOT_Net_Core.Controllers
         [HttpPost]
         public IActionResult Create(News news)
         {
-            _repository.Create(news);
-            return View();
+            if (ModelState.IsValid)
+            {
+                _repository.Create(news);
+
+            }
+                return View();
         }
 
         [HttpGet]

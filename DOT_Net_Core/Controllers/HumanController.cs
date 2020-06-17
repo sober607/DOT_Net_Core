@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using DOT_Net_Core.Repository;
 using Infestation.Repositories;
 using Infestation.ViewModels;
+using System.Text;
+using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DOT_Net_Core.Controllers
 {
@@ -19,7 +22,7 @@ namespace DOT_Net_Core.Controllers
         private DOT_Net_CoreContext _context { get; set; }
 
         private IHumanActions _repository { get; set; }
- 
+
 
         public HumanController(DOT_Net_CoreContext context, IHumanActions repository)
         {
@@ -27,10 +30,10 @@ namespace DOT_Net_Core.Controllers
             this._repository = repository;
         }
 
-        public IActionResult Index(int humanId)
+        public IActionResult Index(List <int?> humanIds)
         {
             // if no ID value given in url
-            if (humanId == 0)
+            if (humanIds.Count == 0)
             {
                 var humans = _repository.GetAllHumans();
                 var viewModels = new List<HumanIndexViewModel>();
@@ -45,11 +48,16 @@ namespace DOT_Net_Core.Controllers
             }
             else
             {
-                var human = _repository.GetHuman(humanId);
+                
                 var viewModels = new List<HumanIndexViewModel>() ;
-                var humanModel = new HumanIndexViewModel();
-                humanModel.Human = human[0];
-                viewModels.Add(humanModel);
+                
+                foreach (int id in humanIds)
+                {
+                    var humanModel = new HumanIndexViewModel();
+                    humanModel.Human = _repository.GetHuman(id)[0];
+                    viewModels.Add(humanModel);
+                }
+                
                 return View(viewModels);
             }
 
@@ -60,6 +68,7 @@ namespace DOT_Net_Core.Controllers
             
             if (humanId == 0 )
             {
+
                 var humans = _repository.GetAllHumans();
                 var viewModels = new List<HumanAuthorsViewModel>();
 
@@ -96,26 +105,40 @@ namespace DOT_Net_Core.Controllers
 
         public IActionResult Country(string name)
         {
-            var viewModels = new List<HumanIndexViewModel>();
-            foreach (Human t in _context.Humans.Where(x => x.Country.Name == name).ToList())
+
+            StringBuilder humanIds = new StringBuilder("?humanIds=");
+            foreach (int t in _context.Humans.Where(x => x.Country.Name == name).Select(x => x.Id).ToList())
             {
-                var human = new HumanIndexViewModel();
-                human.Human = t;
-                viewModels.Add(human);
+                if (t == (_context.Humans.Where(x => x.Country.Name == name).Select(x => x.Id).ToList()).First())
+                {
+                    humanIds.Append(t);
+                }
+                else 
+                { 
+                humanIds.Append("&" + "humanIds=" + t.ToString()  );
+                }
             }
-            
-            return View(viewModels);
+
+            return Redirect("/Human/Index" + humanIds );
+           
         }
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(Human human)
         {
-            _repository.Create(human);
+            if (ModelState.IsValid)
+            {
+                _repository.Create(human);
+            }
+
+            
             return View();
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Create()
         {
             return View();

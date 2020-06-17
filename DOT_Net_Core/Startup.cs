@@ -11,6 +11,9 @@ using DOT_Net_Core.Models;
 using Microsoft.EntityFrameworkCore;
 using DOT_Net_Core.Repository;
 using Infestation.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Infestation.Infrastructure.Services.Interfaces;
+using Infestation.Infrastructure.Services.Implementations;
 
 namespace DOT_Net_Core
 {
@@ -29,7 +32,10 @@ namespace DOT_Net_Core
             services.AddScoped<INewsRepository, SqlNewsRepository>();
             services.AddScoped<IHumanActions, SqlHumanRepository>();
             services.AddControllersWithViews();
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DOT_Net_CoreContext>();
             services.AddDbContext<DOT_Net_CoreContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("DOT_Net_CoreDbConnectionNew")).UseLazyLoadingProxies());
+            //services.AddScoped<IMessageService, EmailMessageService>();
+            services.AddScoped<IMessageService, SmsMessageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +53,9 @@ namespace DOT_Net_Core
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

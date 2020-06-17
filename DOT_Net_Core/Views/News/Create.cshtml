@@ -4,6 +4,7 @@
 @{
 
     <form asp-controller="News" asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <label asp-for="Title">Title</label><br />
         <input asp-for="Title" /><br />
 

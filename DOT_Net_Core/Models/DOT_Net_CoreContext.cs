@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DOT_Net_Core.Models
 {
-    public class DOT_Net_CoreContext : DbContext
+    public class DOT_Net_CoreContext : IdentityDbContext
     {
 
         public DOT_Net_CoreContext(DbContextOptions options) : base(options)
@@ -23,6 +24,7 @@ namespace DOT_Net_Core.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<WorldPart>().HasData(
                 new WorldPart
                 {
