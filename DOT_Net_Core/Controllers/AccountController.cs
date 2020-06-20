@@ -37,7 +37,7 @@ namespace Infestation.Controllers
             if (createTask.Result.Succeeded)
             {
                 _signInManager.SignInAsync(user, false);
-                _messageServices.SendMessage();
+                _messageServices.SendMessage("email");
                 return RedirectToAction("Index", "Human");
             }
 

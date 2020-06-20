@@ -8,6 +8,6 @@ namespace Infestation.Infrastructure.Services.Interfaces
 {
     public interface IMessageService
     {
-        void SendMessage();
+        void SendMessage(string type);
     }
 }
