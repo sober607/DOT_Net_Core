@@ -22,11 +22,7 @@ namespace Infestation.Infrastructure.Services.Implementations
         public void SendMessage()
         {
 
-        
-        const string accountSid = "AC633e5a38123583d447c7a12328a23392";
-        const string authToken = "64934dc444254a8db94737c820c9bfce";
-
-        TwilioClient.Init(accountSid, authToken);
+        TwilioClient.Init(_configuration.GetValue<string>("TwilioAccountSid"), _configuration.GetValue<string>("TwilioAccountAuthToken"));
 
         var message = MessageResource.Create(
             body: "Hi there!",

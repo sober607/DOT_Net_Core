@@ -63,7 +63,7 @@ namespace Infestation.Controllers
             {
 
             
-            var signInTask = _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false);
+            var signInTask = _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RememberMe, false);
             if(signInTask.Result.Succeeded)
             {
                     if (!string.IsNullOrEmpty(returnUrl))

@@ -33,7 +33,6 @@ namespace Infestation.Infrastructure.Services.Implementations
             // add email body
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.TextBody = "Hello from Admin";
-            bodyBuilder.TextBody = "<h1>h1 text<h1>";
             message.Body = bodyBuilder.ToMessageBody();
 
             // send message

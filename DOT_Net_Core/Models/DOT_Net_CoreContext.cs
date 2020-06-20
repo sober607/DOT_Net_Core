@@ -33,19 +33,19 @@ namespace DOT_Net_Core.Models
 
                 },
 
-                                new WorldPart
-                                {
-                                    Id = 2,
-                                    Name = "Australia"
+                new WorldPart
+                {
+                Id = 2,
+                 Name = "Australia"
 
-                                },
+                },
 
-                                                                new WorldPart
-                                                                {
-                                                                    Id = 6,
-                                                                    Name = "America"
+                 new WorldPart
+                  {
+                  Id = 6,
+                  Name = "America"
 
-                                                                },
+                  },
                 new WorldPart
                 {
                     Id = 3,
@@ -60,12 +60,12 @@ namespace DOT_Net_Core.Models
 
                                 },
 
-                                                                new WorldPart
-                                                                {
-                                                                    Id = 5,
-                                                                    Name = "Antarctic"
+                new WorldPart
+                {
+                 Id = 5,
+                  Name = "Antarctic"
 
-                                                                }
+                }
 
                 );
         }
