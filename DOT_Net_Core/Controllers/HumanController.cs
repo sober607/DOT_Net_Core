@@ -30,8 +30,11 @@ namespace DOT_Net_Core.Controllers
             this._repository = repository;
         }
 
+        [AllowAnonymous]
         public IActionResult Index(List <int?> humanIds)
         {
+            //HttpContext.Response.StatusCode = 417;
+            //var address = HttpContext.Request.Host;
             // if no ID value given in url
             if (humanIds.Count == 0)
             {
@@ -63,6 +66,7 @@ namespace DOT_Net_Core.Controllers
 
         }
 
+        [AllowAnonymous]
         public IActionResult Authors([FromServices] INewsRepository newsRepository, [FromQuery] int humanId)
         {
             
@@ -102,7 +106,7 @@ namespace DOT_Net_Core.Controllers
 
         }
 
-
+        [AllowAnonymous]
         public IActionResult Country(string name)
         {
 

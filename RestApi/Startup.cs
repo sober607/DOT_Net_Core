@@ -26,7 +26,12 @@ namespace RestApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<INewsRepository, SqlNewsRepository>();
+            services.AddScoped<INewsRepository, SqlNewsRepository>();
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = int.MaxValue;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

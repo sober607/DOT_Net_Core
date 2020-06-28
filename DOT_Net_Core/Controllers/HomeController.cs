@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DOT_Net_Core.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DOT_Net_Core.Controllers
 {
@@ -18,6 +19,7 @@ namespace DOT_Net_Core.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
 

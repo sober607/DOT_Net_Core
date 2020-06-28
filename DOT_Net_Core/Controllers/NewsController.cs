@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using DOT_Net_Core.Models;
 using Infestation.Repositories;
 using Infestation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DOT_Net_Core.Controllers
 {
@@ -20,7 +21,7 @@ namespace DOT_Net_Core.Controllers
             _repository = repository;
         }
 
-        
+        [AllowAnonymous]
         public IActionResult Index(int newsId, int authorId)
         {
             if (newsId == 0 )
@@ -49,6 +50,7 @@ namespace DOT_Net_Core.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Create(News news)
         {
             if (ModelState.IsValid)
