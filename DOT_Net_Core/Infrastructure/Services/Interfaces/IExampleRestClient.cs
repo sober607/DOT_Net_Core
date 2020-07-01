@@ -8,6 +8,8 @@ namespace Infestation.Infrastructure.Services.Interfaces
 {
     public interface IExampleRestClient
     {
+        public string FileName { get; set; }
+        string GetFileName();
         byte[] GetFile();
         void UploadFile(IFormFile file);
     }

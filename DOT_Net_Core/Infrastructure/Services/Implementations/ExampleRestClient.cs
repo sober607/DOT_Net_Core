@@ -11,11 +11,30 @@ namespace Infestation.Infrastructure.Services.Implementations
 {
     public class ExampleRestClient : IExampleRestClient
     {
+        public string FileName { get; set; }
+
+        public string GetFileName()
+        {
+            var client = new RestClient("http://localhost:50080");
+            var request = new RestRequest("FileName", Method.GET);
+            var result = client.Execute(request);
+            if (result != null)
+            {
+                FileName = (client.Execute(request)).Headers.FirstOrDefault(header => header.Name == "File-Name").Value.ToString();
+            }
+
+            return FileName;
+        }
+
         public byte[] GetFile()
         {
             var client = new RestClient("http://localhost:50080");
             var request = new RestRequest("File", Method.GET);
             var result = client.Execute(request).RawBytes;
+            if (result != null)
+            {
+                FileName = (client.Execute(request)).Headers.FirstOrDefault(header => header.Name == "File-Name").Value.ToString();
+            }
             return result;
         }
 

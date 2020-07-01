@@ -1,5 +1,6 @@
 ﻿using Infestation.Infrastructure.Services.Implementations;
 using Infestation.Infrastructure.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -11,22 +12,34 @@ namespace Infestation.Infrastructure.BackgroundServices
 {
     public class UploadFileService : BackgroundService
     {
-        private FileProcessingChannel _channel { get; }
-        private IExampleRestClient _restClient { get; }
+        private IFileProcessingChannel _channel { get; }
+        //private IExampleRestClient _restClient { get; }
 
+        private IServiceScopeFactory _scopeFactory { get; }
 
-        public UploadFileService(FileProcessingChannel channel, IExampleRestClient restClient)
+        public UploadFileService(IFileProcessingChannel channel, IServiceScopeFactory scopeFactory)
         {
             _channel = channel;
-            _restClient = restClient;
+            //_restClient = restClient;
+            _scopeFactory = scopeFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await foreach (var file in _channel.GetAllAsync())
+            using (var scope = _scopeFactory.CreateScope())
             {
-                _restClient.UploadFile(file);
+                var context = scope.ServiceProvider.GetService<IExampleRestClient>();
+
+                await foreach (var file in _channel.GetAllAsync())
+            {
+                    context.UploadFile(file);
             }
+
+            
+            }
+
         }
+
+
     }
 }

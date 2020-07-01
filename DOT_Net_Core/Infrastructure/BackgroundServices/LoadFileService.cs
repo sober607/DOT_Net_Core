@@ -1,6 +1,7 @@
 ﻿using Infestation.Infrastructure.Configuration;
 using Infestation.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
@@ -14,16 +15,17 @@ namespace Infestation.Infrastructure.BackgroundServices
     public class LoadFileService: BackgroundService
     {
         private IMemoryCache _cache { get; }
-        
-        private IExampleRestClient _restClient { get; }
+
+        //private IExampleRestClient _restClient { get; }
+        private IServiceScopeFactory _scopeFactory { get; }
 
         private InfestationConfiguration _options { get; set; }
 
 
-        public LoadFileService(IMemoryCache cache, IExampleRestClient restClient, IOptions<InfestationConfiguration> options)
+        public LoadFileService(IMemoryCache cache, IOptions<InfestationConfiguration> options, IServiceScopeFactory scopeFactory)
         {
             _cache = cache;
-            _restClient = restClient;
+            _scopeFactory = scopeFactory;
             _options = options.Value;
         }
 
@@ -31,19 +33,37 @@ namespace Infestation.Infrastructure.BackgroundServices
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var image = _restClient.GetFile();
-
-                if (image != null)
+                using (var scope = _scopeFactory.CreateScope())
                 {
-                    var cacheKey = CacheAssistant.GenerateImageCacheKey();
+                    var context = scope.ServiceProvider.GetService<IExampleRestClient>();
+                    var image = context.GetFile();
 
-                    var entryOptions = new MemoryCacheEntryOptions();
-                    entryOptions.SlidingExpiration = TimeSpan.FromMinutes(_options.UploadFileCacheExpirationTimeMinutes);
+                    if (image != null)
+                    {
+                        var cacheKey = CacheAssistant.GenerateImageCacheKey(context.FileName);
 
-                    _cache.Set<byte[]>(cacheKey, image, entryOptions);
+                        if (CacheAssistant.CacheFilesList != null) // check for expired elements in _cacheFilesList
+                        {
+                            foreach (var file in CacheAssistant.CacheFilesList)
+                            {
+                                if (DateTime.UtcNow.Subtract(file.Value).TotalMinutes > _options.UploadFileCacheExpirationTimeMinutes)
+                                {
+                                    CacheAssistant.CacheFilesList.Remove(file.Key);
+                                }
+                            }
+                        }
+
+                        if (!CacheAssistant.CacheFilesList.ContainsKey(cacheKey)) // adds image to cache if image is not present in cache
+                        {
+                            var entryOptions = new MemoryCacheEntryOptions();
+                            entryOptions.SlidingExpiration = TimeSpan.FromMinutes(_options.UploadFileCacheExpirationTimeMinutes);
+                            CacheAssistant.CacheFilesList.Add(cacheKey, DateTime.UtcNow);
+                            _cache.Set<byte[]>(cacheKey, image, entryOptions);
+                        }
+                    }
+
+                    await Task.Delay(TimeSpan.FromSeconds(30));
                 }
-
-                await Task.Delay(TimeSpan.FromSeconds(30));
             }
         }
 

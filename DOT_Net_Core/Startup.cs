@@ -38,8 +38,8 @@ namespace DOT_Net_Core
             services.AddScoped<INewsRepository, SqlNewsRepository>();
             services.AddScoped<IHumanActions, SqlHumanRepository>();
             services.AddSingleton<IMessageService, MessageService>();
-            services.AddSingleton<IExampleRestClient, ExampleRestClient>();
-            services.AddSingleton<FileProcessingChannel>();
+            services.AddScoped<IExampleRestClient, ExampleRestClient>();
+            services.AddSingleton<IFileProcessingChannel, FileProcessingChannel>();
 
             services.AddDbContext<DOT_Net_CoreContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("DOT_Net_CoreDbConnectionNew")).UseLazyLoadingProxies());
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DOT_Net_CoreContext>();
@@ -73,10 +73,6 @@ namespace DOT_Net_Core
 
 
 
-
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,29 +86,13 @@ namespace DOT_Net_Core
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            
+      
 
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseMiddleware<SendRequestNotificationMiddleWare>();
-
-            //app.Run(async context =>
-            //{
-            //    await context.Response.WriteAsync("This is middleware");
-
-            //}
-            //);
-
-            //app.Use(async (context, next) =>
-            //{
-            //    await context.Response.WriteAsync("This is middleware");
-            //    await next.Invoke();
-
-            //}
-            //);
 
             app.UseAuthentication();
             app.UseAuthorization();

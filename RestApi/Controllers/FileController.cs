@@ -10,14 +10,23 @@ namespace RestApi.Controllers
 {
     public class FileController: ControllerBase
     {
+        private string _path { get; set; } = "wwwroot/photo51.jpg";
+
         [HttpGet("File")]
         public FileContentResult GetFile()
         {
-            var path = "wwwroot/photo51.jpg";
-            var fileBytes = System.IO.File.ReadAllBytes(path);
-            HttpContext.Response.Headers.Add("File-Name", System.IO.Path.GetFileName(path));
+            var fileBytes = System.IO.File.ReadAllBytes(_path);
+            HttpContext.Response.Headers.Add("File-Name", System.IO.Path.GetFileName(_path));
             return new FileContentResult(fileBytes, "image/jpeg");
         }
+
+        [HttpGet("FileName")] // for cache and optimisation on client side, check of filename without downloading file
+        public void GetFileName()
+        {
+            HttpContext.Response.Headers.Add("File-Name", System.IO.Path.GetFileName(_path));
+        }
+
+
 
         [HttpPost("File")]
         public void UploadFile([FromBody]string file, [FromQuery]string fileName, [FromServices]IWebHostEnvironment webHost)

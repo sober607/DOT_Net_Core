@@ -36,7 +36,7 @@ namespace Infestation.Controllers
         [AllowAnonymous]
         public FileContentResult Image()
         {
-            var cacheKey = CacheAssistant.GenerateImageCacheKey();
+            var cacheKey = CacheAssistant.GenerateImageCacheKey(_restClient.GetFileName());
             var image = _cache.Get<byte[]>(cacheKey);
             if (image == null)
             {
@@ -44,6 +44,7 @@ namespace Infestation.Controllers
                 entryOptions.SlidingExpiration = TimeSpan.FromMinutes(_options.DownloadFileCacheExpirationTimeMinutes);
                 image = _restClient.GetFile();
                 _cache.Set<byte[]>(cacheKey, image, entryOptions);
+                CacheAssistant.CacheFilesList.Add(cacheKey, DateTime.UtcNow);
             }
 
             return new FileContentResult(image, "image/jpeg");
