@@ -31,7 +31,9 @@ namespace Infestation.Infrastructure.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (_options.Notification.IsEmailRequestLoggingEnabled)
+
+
+                if (_options.Notification.IsEmailRequestLoggingEnabled)
             { 
             var hostOfRequest = context.Request.Host;
             string table = "";

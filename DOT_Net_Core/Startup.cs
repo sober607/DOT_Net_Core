@@ -28,18 +28,25 @@ namespace DOT_Net_Core
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
+
+
             services.AddScoped<INewsRepository, SqlNewsRepository>();
             services.AddScoped<IHumanActions, SqlHumanRepository>();
             services.AddSingleton<IMessageService, MessageService>();
             services.AddScoped<IExampleRestClient, ExampleRestClient>();
             services.AddSingleton<IFileProcessingChannel, FileProcessingChannel>();
+
 
             services.AddDbContext<DOT_Net_CoreContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("DOT_Net_CoreDbConnectionNew")).UseLazyLoadingProxies());
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DOT_Net_CoreContext>();
@@ -78,6 +85,7 @@ namespace DOT_Net_Core
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,7 +100,15 @@ namespace DOT_Net_Core
 
             app.UseRouting();
 
-            app.UseMiddleware<SendRequestNotificationMiddleWare>();
+
+            app.UseWhen(request => request.Request.Path.Value.ToLower().Contains("Human/Create".ToLower()) == true 
+            && request.Request.Method == "POST", 
+            builder => { builder.UseMiddleware<SendRequestNotificationMiddleWare>(); }
+
+            ); 
+
+
+
 
             app.UseAuthentication();
             app.UseAuthorization();

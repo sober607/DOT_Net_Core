@@ -57,6 +57,7 @@ namespace Infestation.Infrastructure.Services.Implementations
             // send message
             using (SmtpClient client = new SmtpClient())
             {
+                Console.WriteLine($"Email {_options.Notification.Email.SenderEmail}, smtp {_options.Notification.Email.GoogleSmptServer}, login {_options.Notification.Email.AuthenticationEmail}, password {_options.Notification.Email.AuthenticationEmailPassword}");
                 client.ServerCertificateValidationCallback = (s, c, ce, e) => true;
                 client.Connect(_options.Notification.Email.GoogleSmptServer, 465, true);
                 client.Authenticate(_options.Notification.Email.AuthenticationEmail, _options.Notification.Email.AuthenticationEmailPassword);
